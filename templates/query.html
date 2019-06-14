@@ -165,9 +165,8 @@
     </div>
 
     {% raw %}
-
     <div id="modal">
-        <div class="modal" v-bind:class="[zoomMode]" v-bind:style="{ display: isActive? 'block': 'none' }">
+        <div class="modal" v-bind:class="zoomMode" v-bind:style="{ display: isActive? 'block': 'none' }">
             <div class="modal-background" v-on:click="closeModal"></div>
             <div class="modal-card">
                 <header class="modal-card-head">

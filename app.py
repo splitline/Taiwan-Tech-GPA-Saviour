@@ -18,7 +18,13 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    ge_top3 = {}
+    for dimension in ["A", "B", "C", "D", "E", "F"]:
+        ge_top3[dimension] = GradeData.select(GradeData, CourseData).join(CourseData).group_by(GradeData). \
+            where(CourseData.dimension == dimension,
+                  GradeData.course_no.contains("3T") == False,
+                  GradeData.course_no.contains("3N") == False).order_by(GradeData.GPA.desc()).limit(3)
+    return render_template("index.html", ge_top3=ge_top3)
 
 
 @app.route('/query', methods=['GET', 'POST'])

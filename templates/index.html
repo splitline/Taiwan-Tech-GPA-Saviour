@@ -130,18 +130,43 @@
                 </div>
                 <!-- END ARTICLE -->
 
-                <!-- <div class="card article">
+                <div class="card article">
                     <div class="card-content">
                         <div class="media">
                             <div class="media-content has-text-centered">
-                                <p class="title article-title">About</p>
+                                <p class="title article-title">校內通識 GPA TOP 3</p>
                             </div>
                         </div>
                         <div class="content article-body">
-                            
+                            {% for dim in ge_top3 %}
+                            <span class="tag is-info is-medium">{{dim}} 向度</span>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>課程名稱</th>
+                                        <th>授課教師</th>
+                                        <th>GPA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for top3 in ge_top3[dim] %}
+                                    <tr>
+                                        <td>{{loop.index}}</td>
+                                        <td>{{top3.course_name}} ({{top3.semester}})</td>
+                                        <td>{{top3.course_data.get().lecturer}}</td>
+                                        <td>{{top3.GPA | round(2)}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <hr>
+                            {% endfor %}
+
+
                         </div>
                     </div>
-                </div> -->
+                </div>
 
             </div>
 
