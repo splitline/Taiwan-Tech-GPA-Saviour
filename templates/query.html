@@ -145,7 +145,11 @@
             <tbody>
                 {% for course in courses %}
                 <tr>
-                    <td>{{course.semester}}</td>
+                    <td>
+                        <a href="http://info.ntust.edu.tw/faith/edua/app/qry_linkoutline.aspx?semester={{course.semester}}&courseno={{course.course_data.get().course_no}}" target="_blank">
+                            {{course.semester}}
+                        </a>
+                    </td>
                     <td>{{course.course_data.get().dimension or ""}}</td>
                     <td>
                         <a class="course-no" data-href="/api/course/{{course.course_data.get().course_no}}">
@@ -189,6 +193,25 @@
                         </div>
                     </nav>
                     <bar-chart :data="chartData" :options="chartOptions"></bar-chart>
+                    <hr>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th v-for="label in gradeSymbol">{{label}}</th>
+                                <th><abbr>GPA</abbr></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="d in courseData">
+                                <td>{{d.semester}}</td>
+                                <td v-for="key in gradeSymbol">
+                                    {{d.grades[key]}}
+                                </td>
+                                <td>{{d.GPA.toFixed(2)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
             </div>
             <button class="modal-close is-large" v-on:click="closeModal" aria-label="close"></button>
@@ -203,6 +226,9 @@
                 courseData: [{}],
                 isActive: false,
                 zoomMode: "zoomOut",
+                gradeSymbol: ["A+", "A", "A-", "B+", "B", "B-",
+                    "C+", "C", "C-", "D", "E", "X"
+                ].reverse(),
 
                 chartData: {
                     labels: [],
@@ -227,19 +253,16 @@
                 },
                 fillData: function () {
                     const data = this.courseData;
-                    const gradeSymbol = ["A+", "A", "A-", "B+", "B", "B-",
-                        "C+", "C", "C-", "D", "E", "X"
-                    ].reverse();
                     const colorScheme = ["#d43d51", "#d43d51", "#e7674e", "#f38f52", "#fab560", "#fedb79",
                         "#ffff9d", "#cee98f", "#9fd184", "#72b97c", "#45a074", "#00876c",
                     ]
                     this.chartData = {
                         labels: data.map(d => `${d.semester}-${d.course_data[0].lecturer}`),
-                        datasets: gradeSymbol.map((label, i) => {
+                        datasets: this.gradeSymbol.map((label, i) => {
                             return {
                                 label: label,
                                 backgroundColor: colorScheme[i],
-                                data: data.map(d => JSON.parse(d.grades)[label]),
+                                data: data.map(d => d.grades[label]),
                                 borderWidth: 2
                             }
                         })
@@ -256,7 +279,12 @@
                 fetch(elem.dataset.href)
                     .then(r => r.json())
                     .then(data => {
-                        modal.courseData = data;
+                        modal.courseData = data.map(d => {
+                            return {
+                                ...d,
+                                grades: JSON.parse(d.grades)
+                            }
+                        });
                         modal.fillData();
                     })
             }
