@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taiwan Tech GPA Saviour</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html,
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            background: #F0F2F4;
+        }
+
+        .hero-body {
+            height: 500px;
+        }
+
+        .articles {
+            margin: 5rem 0;
+            margin-top: -250px;
+        }
+
+        .articles .content p {
+            line-height: 1.9;
+            margin: 15px 0;
+        }
+
+        .article {
+            margin-bottom: 5rem;
+        }
+
+        .article-title {
+            font-size: 2rem;
+            font-weight: normal;
+            line-height: 2;
+        }
+
+        .article-subtitle {
+            color: #909AA0;
+            margin-bottom: 3rem;
+        }
+
+        .article-body {
+            line-height: 1.4;
+            margin: 0 6rem;
+        }
+
+        .card-content {
+            padding: 3rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero is-info is-medium is-bold">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">Taiwan Tech GPA Saviour</h1>
+                <h2 class="subtitle">拯救你的 GPA。</h2>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="container">
+        <!-- START ARTICLE FEED -->
+        <section class="articles">
+            <div class="column is-8 is-offset-2">
+                <!-- START ARTICLE -->
+                <div class="card article">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content has-text-centered">
+                                <p class="title article-title">快速查詢</p>
+                            </div>
+                        </div>
+                        <div class="content article-body">
+                            <form action="/query" method="GET">
+                                <div class="field">
+                                    <div class="control has-icons-left">
+                                        <input class="input is-large" type="text" name="course_no" placeholder="課程代碼">
+                                        <span class="icon is-small is-left">
+                                            <i class="fa fa-code"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control has-icons-left">
+                                        <input class="input is-large" type="text" name="course_name" placeholder="課程名稱">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-book"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control has-icons-left">
+                                        <input class="input is-large" type="text" name="lecturer" placeholder="授課教師">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-user-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="general">
+                                        通識
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="ntust_only">
+                                        不含校際課程
+                                    </label>
+                                </div>
+                                <button class="button is-primary is-large is-fullwidth">
+                                    <span class="icon">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <span>搜尋</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- END ARTICLE -->
+
+                <!-- <div class="card article">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content has-text-centered">
+                                <p class="title article-title">About</p>
+                            </div>
+                        </div>
+                        <div class="content article-body">
+                            
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+
+        </section>
+        <!-- END ARTICLE FEED -->
+    </div>
+</body>
+
+</html>

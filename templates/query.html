@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taiwan Tech GPA Saviour</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+    <style>
+        .container {
+            padding: 1em;
+        }
+
+        @-webkit-keyframes zoomIn {
+            from {
+                opacity: 0;
+                -webkit-transform: scale3d(0.3, 0.3, 0.3);
+                transform: scale3d(0.3, 0.3, 0.3);
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                -webkit-transform: scale3d(0.3, 0.3, 0.3);
+                transform: scale3d(0.3, 0.3, 0.3);
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .zoomIn {
+            -webkit-animation-name: zoomIn;
+            animation-name: zoomIn;
+        }
+
+        @-webkit-keyframes zoomOut {
+            from {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+                -webkit-transform: scale3d(0.3, 0.3, 0.3);
+                transform: scale3d(0.3, 0.3, 0.3);
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes zoomOut {
+            from {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+                -webkit-transform: scale3d(0.3, 0.3, 0.3);
+                transform: scale3d(0.3, 0.3, 0.3);
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .zoomOut {
+            -webkit-animation-name: zoomOut;
+            animation-name: zoomOut;
+        }
+
+        .modal {
+            -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+    </style>
+
+    <script>
+        Vue.component('bar-chart', {
+            extends: VueChartJs.Bar,
+            mixins: [VueChartJs.mixins.reactiveData],
+            props: ['data', 'options'],
+            mounted() {
+                this.render();
+            },
+            methods: {
+                render: function () {
+                    this.renderChart(this.data, this.options)
+                }
+            },
+            mounted() {
+                this.renderChart(this.data, this.options)
+            },
+            watch: {
+                data: function () {
+                    this.render();
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Taiwan Tech GPA Saviour
+                </h1>
+                <h2 class="subtitle">
+                    拯救你的 GPA。
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <table class="table is-fullwidth is-hoverable">
+            <thead>
+                <tr>
+                    <th>學期</th>
+                    <th>通識向度</th>
+                    <th>課程代碼</th>
+                    <th>課程名稱</th>
+                    <th>授課教師</th>
+                    <th>修課人數</th>
+                    <th>GPA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{course.semester}}</td>
+                    <td>{{course.course_data.get().dimension or ""}}</td>
+                    <td>
+                        <a class="course-no" data-href="/api/course/{{course.course_data.get().course_no}}">
+                            {{course.course_data.get().course_no}}
+                        </a>
+                    </td>
+                    <td>{{course.course_name}}</td>
+                    <td>{{course.course_data.get().lecturer}}</td>
+                    <td>{{course.total}}</td>
+                    <td>{{course.GPA | round(2)}}</td>
+                </tr>
+                {% else %}
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% raw %}
+
+    <div id="modal">
+        <div class="modal" v-bind:class="[zoomMode]" v-bind:style="{ display: isActive? 'block': 'none' }">
+            <div class="modal-background" v-on:click="closeModal"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">{{courseData[0].course_no}} - {{courseData[0].course_name}}</p>
+                </header>
+                <section class="modal-card-body">
+                    <nav class="level">
+                        <div class="level-item has-text-centered">
+                            <div>
+                                <p class="heading">平均 GPA</p>
+                                <p class="title">
+                                    {{(courseData.reduce((a, b) => a + b.GPA, 0) / courseData.length).toFixed(2)}}</p>
+                            </div>
+                        </div>
+                        <div class="level-item has-text-centered">
+                            <div>
+                                <p class="heading">平均修課人數</p>
+                                <p class="title">{{courseData.reduce((a, b) => a + b.total, 0) / courseData.length}}</p>
+                            </div>
+                        </div>
+                    </nav>
+                    <bar-chart :data="chartData" :options="chartOptions"></bar-chart>
+                </section>
+            </div>
+            <button class="modal-close is-large" v-on:click="closeModal" aria-label="close"></button>
+        </div>
+    </div>
+    {% endraw %}
+
+    <script>
+        const modal = new Vue({
+            el: "#modal",
+            data: {
+                courseData: [{}],
+                isActive: false,
+                zoomMode: "zoomOut",
+
+                chartData: {
+                    labels: [],
+                    datasets: []
+                },
+                chartOptions: {
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            },
+            methods: {
+                closeModal: function () {
+                    this.zoomMode = "zoomOut"
+                    setTimeout(() => this.isActive = false, 1000);
+                },
+                fillData: function () {
+                    const data = this.courseData;
+                    const gradeSymbol = ["A+", "A", "A-", "B+", "B", "B-",
+                        "C+", "C", "C-", "D", "E", "X"
+                    ].reverse();
+                    const colorScheme = ["#d43d51", "#d43d51", "#e7674e", "#f38f52", "#fab560", "#fedb79",
+                        "#ffff9d", "#cee98f", "#9fd184", "#72b97c", "#45a074", "#00876c",
+                    ]
+                    this.chartData = {
+                        labels: data.map(d => `${d.semester}-${d.course_data[0].lecturer}`),
+                        datasets: gradeSymbol.map((label, i) => {
+                            return {
+                                label: label,
+                                backgroundColor: colorScheme[i],
+                                data: data.map(d => JSON.parse(d.grades)[label]),
+                                borderWidth: 2
+                            }
+                        })
+                    }
+                }
+            }
+        });
+
+
+        document.querySelectorAll(".course-no").forEach(elem => {
+            elem.onclick = () => {
+                modal.isActive = true;
+                modal.zoomMode = "zoomIn";
+                fetch(elem.dataset.href)
+                    .then(r => r.json())
+                    .then(data => {
+                        modal.courseData = data;
+                        modal.fillData();
+                    })
+            }
+        })
+    </script>
+</body>
+
+</html>
