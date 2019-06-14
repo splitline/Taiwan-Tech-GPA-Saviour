@@ -54,8 +54,8 @@ def course_api(course_no):
     data = GradeData.select().join(CourseData).where(
         CourseData.course_no == course_no)
     result = [model_to_dict(d, backrefs=True) for d in data]
-    return jsonify(list(result))
+    return jsonify(result)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run("0.0.0.0", debug=True)
