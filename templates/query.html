@@ -101,6 +101,14 @@
             -webkit-animation-fill-mode: both;
             animation-fill-mode: both;
         }
+
+        .modal-card {
+            margin: auto auto;
+        }
+
+        .scroll {
+            overflow: scroll;
+        }
     </style>
 
     <script>
@@ -141,7 +149,7 @@
             </div>
         </div>
     </section>
-    <div class="container content">
+    <div class="container content scroll">
         <blockquote>1062 的資料中，若該課程有多個班可能會導致資料錯誤，請小心：）</blockquote>
         <table class="table is-fullwidth is-hoverable">
             <thead>
@@ -189,6 +197,7 @@
             <div class="modal-card">
                 <header class="modal-card-head">
                     <p class="modal-card-title">{{courseData[0].course_no}} - {{courseData[0].course_name}}</p>
+                    <button class="delete" v-on:click="closeModal" aria-label="close"></button>
                 </header>
                 <section class="modal-card-body">
                     <nav class="level">
@@ -208,27 +217,29 @@
                     </nav>
                     <bar-chart :data="chartData" :options="chartOptions"></bar-chart>
                     <hr>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th v-for="label in gradeSymbol">{{label}}</th>
-                                <th><abbr>GPA</abbr></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="d in courseData">
-                                <td>{{d.semester}}</td>
-                                <td v-for="key in gradeSymbol">
-                                    {{d.grades[key]}}
-                                </td>
-                                <td>{{d.GPA.toFixed(2)}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <div class="is-fullwidth scroll">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th v-for="label in gradeSymbol">{{label}}</th>
+                                    <th><abbr>GPA</abbr></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="d in courseData">
+                                    <td>{{d.semester}}</td>
+                                    <td v-for="key in gradeSymbol">
+                                        {{d.grades[key]}}
+                                    </td>
+                                    <td>{{d.GPA.toFixed(2)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </div>
-            <button class="modal-close is-large" v-on:click="closeModal" aria-label="close"></button>
         </div>
     </div>
     {% endraw %}
