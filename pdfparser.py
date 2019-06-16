@@ -14,7 +14,7 @@ import json
 from model import db, GradeData, CourseData
 import peewee
 
-DATA_DIR = "/Users/splitline/course-data/1071/"
+DATA_DIR = "/Users/splitline/course-data/1062/"
 
 
 def get_course_data(pdf_file):
@@ -103,8 +103,8 @@ def get_course_data(pdf_file):
 gp_mapping = {"A+": 4.3, "A": 4.0, "A-": 3.7, "B+": 3.3, "B": 3.0, "B-": 2.7,
               "C+": 2.3, "C": 2.0, "C-": 1.7, "D": 1.0, "E": 0.0, "X": 0.0}
 
-# data = get_course_data(DATA_DIR+"M10723104.pdf")
-# print(data)
+data = get_course_data(DATA_DIR+"B10630040.pdf")
+print(data)
 
 
 def process_data(f, i, file_num):
@@ -133,17 +133,17 @@ def process_data(f, i, file_num):
 
 
 
-if __name__ == "__main__":
-    db.connect()
-    db.create_tables([CourseData, GradeData])
-    db.close()
-    files = os.listdir(DATA_DIR)
-    file_num = len(files)
+# if __name__ == "__main__":
+#     db.connect()
+#     db.create_tables([CourseData, GradeData])
+#     db.close()
+#     files = os.listdir(DATA_DIR)
+#     file_num = len(files)
 
-    pool = Pool()
-    for i, f in enumerate(files):
-        if f.endswith(".pdf"):
-            pool.apply_async(process_data, args=(f, i, file_num))
+#     pool = Pool()
+#     for i, f in enumerate(files):
+#         if f.endswith(".pdf"):
+#             pool.apply_async(process_data, args=(f, i, file_num))
 
-    pool.close()
-    pool.join()
+#     pool.close()
+#     pool.join()

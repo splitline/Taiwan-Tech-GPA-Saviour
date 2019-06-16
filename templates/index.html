@@ -2,12 +2,24 @@
 <html>
 
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-51534833-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-51534833-3');
+    </script>
     <meta charset="utf-8">
     <meta content="Taiwan Tech GPA Saviour" property="og:title" />
     <meta content="website" property="og:type" />
     <meta content="{{request.host_url}}" property="og:url" />
     <meta content="Taiwan Tech GPA Saviour | 拯救你的 GPA。" property="og:description" />
-    <meta content="{{request.host_url}}/static/og.png" property="og:image" />
+    <meta content="{{request.host_url}}static/og.png" property="og:image" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">

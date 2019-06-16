@@ -2,6 +2,18 @@
 <html>
 
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-51534833-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-51534833-3');
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -129,7 +141,8 @@
             </div>
         </div>
     </section>
-    <div class="container">
+    <div class="container content">
+        <blockquote>1062 的資料中，若該課程有多個班可能會導致資料錯誤，請小心：）</blockquote>
         <table class="table is-fullwidth is-hoverable">
             <thead>
                 <tr>
@@ -146,7 +159,8 @@
                 {% for course in courses %}
                 <tr>
                     <td>
-                        <a href="http://info.ntust.edu.tw/faith/edua/app/qry_linkoutline.aspx?semester={{course.semester}}&courseno={{course.course_data.get().course_no}}" target="_blank">
+                        <a href="http://info.ntust.edu.tw/faith/edua/app/qry_linkoutline.aspx?semester={{course.semester}}&courseno={{course.course_data.get().course_no}}"
+                            target="_blank">
                             {{course.semester}}
                         </a>
                     </td>
