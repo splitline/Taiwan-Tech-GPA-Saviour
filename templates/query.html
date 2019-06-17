@@ -116,16 +116,13 @@
             extends: VueChartJs.Bar,
             mixins: [VueChartJs.mixins.reactiveData],
             props: ['data', 'options'],
-            mounted() {
-                this.render();
-            },
             methods: {
                 render: function () {
                     this.renderChart(this.data, this.options)
                 }
             },
             mounted() {
-                this.renderChart(this.data, this.options)
+                this.render()
             },
             watch: {
                 data: function () {
@@ -248,7 +245,10 @@
         const modal = new Vue({
             el: "#modal",
             data: {
-                courseData: [{}],
+                courseData: [{
+                    grades: {},
+                    GPA: 0
+                }],
                 isActive: false,
                 zoomMode: "zoomOut",
                 gradeSymbol: ["A+", "A", "A-", "B+", "B", "B-",
