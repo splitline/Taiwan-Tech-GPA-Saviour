@@ -163,7 +163,7 @@
                             </div>
                         </div>
                         <div class="content article-body">
-                            {% for dim in ge_top3 %}
+                            {% for dim in ge_dim %}
                             <span class="tag is-info is-medium">{{dim}} 向度</span>
                             <table class="table">
                                 <thead>
@@ -189,6 +189,38 @@
                             {% endfor %}
 
 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card article">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content has-text-centered">
+                                <p class="title article-title">佛系 Rank</p>
+                            </div>
+                        </div>
+                        <div class="content article-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>課程代碼</th>
+                                        <th>系所名稱</th>
+                                        <th>GPA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in dep_gpa %}
+                                    <tr>
+                                        <td>{{loop.index}}</td>
+                                        <td>{{data.no}}</td>
+                                        <td>{{data.detail}}</td>
+                                        <td>{{data.gpa | round(2)}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
