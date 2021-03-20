@@ -3,7 +3,7 @@ chardet==3.0.4
 Click==7.0
 Flask==1.0.3
 itsdangerous==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 pdfminer.six==20181108
 peewee==3.9.6
